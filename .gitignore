@@ -1,0 +1,13 @@
+tools/bin/
+tools/testimg/
+tools/*.onnx
+tools/*.bin
+tools/pip*.log
+tools/*.json
+tools/*.txt
+tunnel.log
+tunnel.err
+server.log
+server.err
+__pycache__/
+*.pyc

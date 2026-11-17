@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>NutriSnap AI — Calorie & Goal Coach</title>
+  <meta name="description" content="Snap a photo of your food and AI tells you the calories and how it fits your muscle-gain / fat-loss goal." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="brand">
+        <img src="icons/icon-192.png" alt="" class="brand-icon" />
+        <div>
+          <div class="brand-name">NutriSnap <span>AI</span></div>
+          <div class="brand-sub" id="topbar-sub">calorie &amp; goal coach</div>
+        </div>
+      </div>
+      <button id="btn-edit-profile" class="icon-btn" title="Edit profile & goal" aria-label="Edit profile">
+        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5Z"/></svg>
+      </button>
+    </header>
+
+    <main id="main">
+      <!-- TODAY -->
+      <section class="page" id="page-today">
+        <div class="date-nav">
+          <button class="icon-btn" id="btn-prev-day" aria-label="Previous day">‹</button>
+          <div class="date-label" id="date-label"></div>
+          <button class="icon-btn" id="btn-next-day" aria-label="Next day">›</button>
+        </div>
+
+        <div class="card hero">
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 130 130">
+              <circle class="ring-bg" cx="65" cy="65" r="54"></circle>
+              <circle class="ring-fg" id="ring-fg" cx="65" cy="65" r="54"></circle>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-num" id="ring-remaining">0</div>
+              <div class="ring-cap" id="ring-cap">kcal left</div>
+            </div>
+          </div>
+          <div class="hero-side">
+            <div class="hero-row"><span>Goal</span><b id="hero-goal">—</b></div>
+            <div class="hero-row"><span>Eaten</span><b id="hero-eaten">0</b></div>
+            <div class="hero-row"><span>Target</span><b id="hero-target">0 kcal</b></div>
+            <div class="hero-row"><span>Burn (TDEE)</span><b id="hero-tdee">0</b></div>
+          </div>
+        </div>
+
+        <div class="card" id="impact-card">
+          <div class="impact-title" id="impact-title">Goal impact</div>
+          <div class="impact-text" id="impact-text">Set your profile to see how today fits your goal.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Macros</div>
+          <div class="macro" id="macro-protein"><div class="macro-head"><span>Protein</span><b>0 / 0 g</b></div><div class="bar"><i></i></div></div>
+          <div class="macro" id="macro-carbs"><div class="macro-head"><span>Carbs</span><b>0 / 0 g</b></div><div class="bar"><i></i></div></div>
+          <div class="macro" id="macro-fat"><div class="macro-head"><span>Fat</span><b>0 / 0 g</b></div><div class="bar"><i></i></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title row-between">
+            <span>Water</span>
+            <span class="muted" id="water-label">0 / 8</span>
+          </div>
+          <div class="water-row" id="water-row"></div>
+        </div>
+
+        <div id="meals"></div>
+      </section>
+
+      <!-- ADD -->
+      <section class="page" id="page-add">
+        <div class="card">
+          <div class="card-title">Add food</div>
+          <div class="add-grid">
+            <button class="add-tile" id="btn-snap">
+              <span class="add-emoji">📸</span><span class="add-name">Snap a photo</span>
+              <span class="add-desc">AI recognizes the dish &amp; calories</span>
+            </button>
+            <button class="add-tile" id="btn-search">
+              <span class="add-emoji">🔍</span><span class="add-name">Search food</span>
+              <span class="add-desc">3M+ products (Open Food Facts)</span>
+            </button>
+            <button class="add-tile" id="btn-quick">
+              <span class="add-emoji">⚡</span><span class="add-name">Quick add</span>
+              <span class="add-desc">common foods, one tap</span>
+            </button>
+            <button class="add-tile" id="btn-custom">
+              <span class="add-emoji">➕</span><span class="add-name">Custom</span>
+              <span class="add-desc">type calories &amp; macros</span>
+            </button>
+          </div>
+          <input type="file" id="photo-input" accept="image/*" capture="environment" hidden />
+        </div>
+
+        <div id="add-panel"></div>
+      </section>
+
+      <!-- STATS -->
+      <section class="page" id="page-stats">
+        <div class="card">
+          <div class="card-title">Your plan</div>
+          <div id="plan-card"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Calories — last 7 days</div>
+          <div id="chart-week" class="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title row-between">
+            <span>Weight</span>
+            <button class="mini-btn" id="btn-add-weight">+ log</button>
+          </div>
+          <div id="chart-weight" class="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Weekly average</div>
+          <div id="weekly-avg" class="muted">—</div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="page" id="page-profile">
+        <div class="card">
+          <div class="card-title">Profile &amp; goal</div>
+          <form id="profile-form" class="form"></form>
+        </div>
+        <div class="card">
+          <div class="card-title">About</div>
+          <p class="muted small">
+            NutriSnap AI runs 100% in your browser. Food photos are classified on-device by a
+            MobileNetV2 neural network (Food-101, 76% top-1 accuracy); nutrition data comes from the
+            open <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener">Open Food Facts</a> database.
+            Your data never leaves this device (saved in localStorage). Built with vibe-coding for an AI course project.
+          </p>
+          <button class="mini-btn danger" id="btn-reset">Reset all data</button>
+        </div>
+      </section>
+    </main>
+
+    <nav id="bottomnav">
+      <button data-page="today" class="nav-btn active">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9Zm1 4v5l4 2-.8 1.6L11 13V7Z"/></svg><span>Today</span>
+      </button>
+      <button data-page="add" class="nav-btn nav-add">
+        <svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"/></svg><span>Add</span>
+      </button>
+      <button data-page="stats" class="nav-btn">
+        <svg viewBox="0 0 24 24"><path d="M4 20V10h3v10Zm6.5 0V4h3v16ZM17 20v-7h3v7Z"/></svg><span>Stats</span>
+      </button>
+      <button data-page="profile" class="nav-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5Z"/></svg><span>Profile</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Onboarding modal -->
+  <div class="modal-backdrop hidden" id="onboard-modal">
+    <div class="modal">
+      <h2>Welcome to NutriSnap AI 👋</h2>
+      <p class="muted">Tell us about yourself — we'll calculate your calories &amp; macros for your goal.</p>
+      <form id="onboard-form" class="form"></form>
+    </div>
+  </div>
+
+  <!-- Food detail modal -->
+  <div class="modal-backdrop hidden" id="food-modal">
+    <div class="modal" id="food-modal-body"></div>
+  </div>
+
+  <!-- Scan modal -->
+  <div class="modal-backdrop hidden" id="scan-modal">
+    <div class="modal" id="scan-modal-body"></div>
+  </div>
+
+  <div id="toast-wrap"></div>
+
+  <script src="vendor/onnxruntime-web/ort.min.js"></script>
+  <script src="labels.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 <p align="center"><b>Snap a photo of your food — on-device AI recognizes the dish, tells you the calories &amp; macros, and shows how it fits your goal</b> (lose fat ⚖️ / maintain / gain muscle 💪 / gain weight 📈).</p>
 
 <p align="center">
-  <a href="https://github.com/YOUR-USERNAME/nutrisnap-ai"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="live demo"/></a>
+  <a href="https://github.com/thebrave44/nutrisnap-ai"><img src="https://img.shields.io/badge/demo-live-brightgreen" alt="live demo"/></a>
   <img src="https://img.shields.io/badge/PWA-installable-lime" alt="PWA"/>
   <img src="https://img.shields.io/badge/AI-on--device-blue" alt="on-device AI"/>
   <img src="https://img.shields.io/badge/API%20keys-none-success" alt="no api keys"/>
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  👉 <b>Live demo:</b> <a href="https://YOUR-USERNAME.github.io/nutrisnap-ai/">https://YOUR-USERNAME.github.io/nutrisnap-ai/</a>
+  👉 <b>Live demo:</b> <a href="https://thebrave44.github.io/nutrisnap-ai/">https://thebrave44.github.io/nutrisnap-ai/</a>
 </p>
 
 ---

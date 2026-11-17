@@ -32,8 +32,15 @@ f_tag = ImageFont.truetype(arial_bold, 26)
 
 d.text((420, 220), "NutriSnap AI", font=f_big, fill=(255, 255, 255))
 d.text((424, 340), "Snap your food. Know your calories. Hit your goal.", font=f_sub, fill=(163, 230, 53))
-d.rounded_rectangle([424, 410, 424 + 330, 460], radius=25, outline=(163, 230, 53), width=3)
-d.text((444, 420), "📸 photo  →  🤖 on-device AI  →  🎯 goal impact", font=f_tag, fill=(232, 238, 251))
+# pill: size the rounded box to the measured text so it fully covers it
+pill = "PHOTO  >  ON-DEVICE AI  >  GOAL IMPACT"
+pad_x, pad_y = 26, 14
+tw = d.textlength(pill, font=f_tag)
+tb = d.textbbox((0, 0), pill, font=f_tag)
+th = tb[3] - tb[1]
+bx, by = 424, 408
+d.rounded_rectangle([bx, by, bx + tw + 2 * pad_x, by + th + 2 * pad_y], radius=(th + 2 * pad_y) // 2, outline=(163, 230, 53), width=3)
+d.text((bx + pad_x, by + pad_y - tb[1]), pill, font=f_tag, fill=(232, 238, 251))
 
 img.save(out)
 print("wrote", out, img.size)

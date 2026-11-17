@@ -82,7 +82,6 @@ assets/food101_mnv2_ak.onnx                          # on-device food classifier
 assets/banner.png  icons/                            # branding + PWA icons
 vendor/onnxruntime-web/                              # ONNX Runtime WASM (MIT), vendored
 tools/                                               # dev scripts used to build/test the model
-ASSIGNMENT_ANSWERS.md                                # course form answers (EN + AR)
 SECURITY.md                                          # privacy/security notes
 LICENSE                                              # MIT (code); see file for 3rd-party licenses
 ```
@@ -92,17 +91,6 @@ LICENSE                                              # MIT (code); see file for 
 No API keys, no accounts, no tracking, no uploads. User data lives only in the visitor's
 `localStorage`; food photos are classified on-device. The server (`server.js`) serves an
 **allowlist** of app files only. Full details: [SECURITY.md](SECURITY.md).
-
-## 🧪 How it was built & tested (vibe-coding)
-
-Built with an AI coding agent (OpenCode) in one session: model research on Hugging Face →
-ONNX export & accuracy tests in Python (`tools/test_generic.py`) → app code → in-browser
-end-to-end tests (onboarding math, search, photo classification, diary, charts) → deployed
-via a temporary Cloudflare quick tunnel and (permanently) GitHub Pages.
-
-## 📝 Course assignment
-
-See [ASSIGNMENT_ANSWERS.md](ASSIGNMENT_ANSWERS.md) for the form answers: problem, idea, and link (English + Arabic).
 
 ## 📜 License
 
